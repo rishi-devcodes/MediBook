@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Inter, Sora } from "next/font/google";
+
 import "./globals.css";
+
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { AuthSessionProvider } from "@/components/auth/AuthSessionProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,11 +33,20 @@ export default function RootLayout({
   children: ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${sora.variable}`}>
-      <body className="flex min-h-screen flex-col">
-        <Navbar />
-        <div className="flex-1">{children}</div>
-        <Footer />
+    <html
+      lang="en"
+      className={`${inter.variable} ${sora.variable}`}
+    >
+      <body className="flex min-h-screen flex-col overflow-x-hidden">
+        <AuthSessionProvider>
+          <Navbar />
+
+          <div className="flex-1">
+            {children}
+          </div>
+
+          <Footer />
+        </AuthSessionProvider>
       </body>
     </html>
   );

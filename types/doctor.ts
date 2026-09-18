@@ -12,6 +12,7 @@ export type ConsultationType = "In-Person" | "Video";
 
 export interface DoctorReview {
   id: string;
+  appointmentId?: string;
   patientName: string;
   rating: number;
   comment: string;

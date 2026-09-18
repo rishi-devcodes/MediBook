@@ -3,23 +3,27 @@ import { Container } from "@/components/ui/Container";
 
 const BENEFITS = [
   {
-    title: "Verified doctors",
-    description: "Every doctor's credentials are checked before they join MediBook.",
+    title: "Doctor information",
+    description:
+      "Compare specialty, qualifications, experience, consultation options, and availability before booking.",
     icon: ShieldCheck,
   },
   {
-    title: "Secure payments",
-    description: "Your payment details are encrypted and never stored on our servers.",
+    title: "Secure online payments",
+    description:
+      "Complete appointment payments through Razorpay's secure checkout.",
     icon: Lock,
   },
   {
     title: "Easy rescheduling",
-    description: "Plans change — reschedule or cancel your appointment in a couple of taps.",
+    description:
+      "Plans change — reschedule or cancel your appointment when needed.",
     icon: RefreshCcw,
   },
   {
-    title: "Support when you need it",
-    description: "Our care team is on hand to help with bookings and questions.",
+    title: "Appointment management",
+    description:
+      "Keep track of upcoming and completed appointments from your account.",
     icon: LifeBuoy,
   },
 ];

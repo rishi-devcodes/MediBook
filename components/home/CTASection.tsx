@@ -10,9 +10,12 @@ export function CTASection() {
           <h2 className="max-w-xl text-2xl font-semibold text-white sm:text-3xl">
             Ready to book your next appointment?
           </h2>
+
           <p className="max-w-md text-primary-50">
-            Join thousands of patients who found the right doctor through MediBook.
+            Browse doctors, compare availability, and book your appointment
+            online.
           </p>
+
           <Link
             href="/doctors"
             className="inline-flex h-12 items-center justify-center gap-1.5 rounded-xl bg-white px-6 text-[15px] font-medium text-primary-600 transition-colors hover:bg-primary-50"

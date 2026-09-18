@@ -5,11 +5,13 @@ import type { Doctor } from "@/types/doctor";
 
 export function BookingSidebar({ doctor }: { doctor: Doctor }) {
   return (
-    <Card className="sticky top-24">
+    <Card>
       <CardBody className="flex flex-col gap-4">
         <div>
           <p className="text-sm text-ink-faint">Consultation fee</p>
-          <p className="text-2xl font-semibold text-ink">₹{doctor.consultationFee}</p>
+          <p className="text-2xl font-semibold text-ink">
+            ₹{doctor.consultationFee}
+          </p>
         </div>
 
         <div className="flex flex-wrap gap-1.5">
