@@ -1,82 +1,135 @@
-# MediBook — Healthcare, simplified.
+# MediBook
 
-Phase 0 (project scaffold) and Phase 1 (Home, Doctors Listing, Doctor
-Profile — built against local mock data) are complete.
+> **Healthcare, simplified.**
 
-## Stack
+MediBook is a full-stack doctor appointment booking platform designed to make healthcare appointment management simple, structured, and convenient.
 
-- Next.js 14 (App Router) + TypeScript
-- Tailwind CSS
-- Lucide React icons
-- MongoDB / Mongoose (added Phase 2)
-- NextAuth.js (added Phase 5)
+The platform allows patients to discover doctors, view doctor profiles and schedules, book appointments, make payments through Razorpay Test Mode, manage appointments, reschedule or cancel bookings, submit reviews, and manage their profiles.
 
-## Getting started
+---
 
-```bash
-cd medibook
-npm install
-npm run dev
-```
+## ✨ Features
 
-Then open http://localhost:3000.
+### 👨‍⚕️ Doctor Discovery
+- Browse available doctors
+- Filter doctors by specialty and other available criteria
+- View detailed doctor profiles
+- View consultation fees, experience, qualifications, clinic information, and reviews
+- Check real-time appointment slot availability
 
-## What's in Phase 1
+### 📅 Appointment Booking
+- Select a doctor
+- Select appointment date
+- Select available time slot
+- Choose consultation type
+- Enter patient details
+- Add appointment reason
+- Review booking information before payment
 
-- **Home** (`/`) — Navbar with mobile menu, hero with a name/specialty +
-  location search form, popular specialties grid, featured doctors,
-  "How it works" (3 steps), trust/benefits section, final CTA, footer.
-- **Doctors Listing** (`/doctors`) — search by name/specialty, filter by
-  specialty/availability/fee, responsive doctor cards, a simulated
-  loading state, and an empty-results state. Reads `?query=` and
-  `?specialty=` from the URL so Home's search and specialty tiles link
-  straight into filtered results.
-- **Doctor Profile** (`/doctors/[doctorId]`) — photo, verified badge,
-  credentials, about, languages, a visual weekly schedule preview,
-  patient reviews, and a sticky booking sidebar.
-- **`/book/[doctorId]`** — placeholder route so "Book Appointment"
-  navigates somewhere real; the full booking flow is a later phase.
-- **Mock data**: `lib/mock/doctors.ts` — 10 doctors across Cardiology,
-  Dermatology, Neurology, Pediatrics, Dentistry, Orthopedics, General
-  Physician, and Gynecology.
+### 💳 Online Payment
+- Razorpay Standard Checkout integration
+- Razorpay **TEST MODE** support
+- Payment order creation and verification
+- Payment records stored in MongoDB
+- Appointment confirmation after successful payment
+- Razorpay webhook endpoint for payment events
 
-### Known Phase 1 scope boundaries
+### 🔐 Authentication & Authorization
+- User registration and login
+- Secure password hashing using bcrypt
+- NextAuth Credentials authentication
+- JWT-based sessions
+- User-specific appointment access
+- Protected profile and appointment routes
 
-- `/login`, `/signup`, and `/appointments` are linked from the Navbar
-  but not yet built — they'll 404 until the auth and appointments
-  phases. This is expected.
-- The doctor photos and hero image are hotlinked from `randomuser.me`
-  and `images.unsplash.com` (already whitelisted in
-  `next.config.js`) — swap for real assets whenever convenient.
+### 🗓️ Appointment Management
+- View all appointments
+- Filter appointments by:
+  - All
+  - Upcoming
+  - Completed
+  - Cancelled
+- View complete appointment details
+- Cancel appointments
+- Reschedule appointments
+- Automatic handling of past appointments
 
-## What's in Phase 0
+### ⭐ Reviews & Ratings
+- Patients can review completed appointments
+- Rating and written review support
+- Duplicate review prevention
+- Review count and rating information stored with doctor data
 
-- `app/layout.tsx` — root layout, Google Fonts (Sora for headlines, Inter
-  for body text)
-- `app/globals.css` — base styles, focus states, reduced-motion support
-- `tailwind.config.ts` — full color/type/radius/shadow token system
-- `components/ui/` — Button, Card, Badge, Input, Container primitives
+### 👤 Profile Management
+- View user profile
+- Edit personal information
+- Change account password
+- View account information
 
-## Design tokens quick reference
+### 🎨 UI / UX
+- Responsive design
+- Premium dark healthcare interface
+- Mobile-friendly navigation
+- Loading and error states
+- Accessible form controls and interactive elements
+- Responsive appointment booking flow
 
-| Token | Value | Use |
-|---|---|---|
-| `primary-500` | `#1958C1` | Primary actions, links, active states |
-| `primary-700` | `#123F8C` | Hover/pressed states |
-| `surface` | `#FFFFFF` | Page background |
-| `surface-muted` | `#F6F8FA` | Section backgrounds, subtle fills |
-| `ink` | `#0F172A` | Body text |
-| `ink-muted` | `#5B6472` | Secondary text |
-| `success` | `#0F9D58` | Confirmed status |
-| `danger` | `#DC2626` | Cancelled/error status |
-| `warning` | `#B7791F` | Pending status |
+---
 
-Font families: `font-display` (Sora, headlines) and `font-sans`
-(Inter, body/UI text).
+## 🛠️ Tech Stack
 
-## Next up — Phase 2
+### Frontend
+- **Next.js 14**
+- **React**
+- **TypeScript**
+- **Tailwind CSS**
+- **Lucide React**
 
-Introduce MongoDB/Mongoose models and wire the Doctors Listing and
-Doctor Profile pages up to real API routes, replacing the local mock
-data.
+### Backend
+- **Next.js App Router**
+- **Route Handlers**
+- **MongoDB**
+- **Mongoose**
+- **Zod**
 
+### Authentication
+- **NextAuth.js**
+- **bcryptjs**
+- JWT Sessions
+
+### Payments
+- **Razorpay Standard Checkout**
+- Razorpay Test Mode
+
+### Development
+- **Node.js**
+- **npm**
+- **Git & GitHub**
+
+---
+
+## 🏗️ Application Architecture
+
+```text
+                        ┌───────────────────┐
+                        │      MediBook     │
+                        │    Next.js App    │
+                        └─────────┬─────────┘
+                                  │
+               ┌──────────────────┼──────────────────┐
+               │                  │                  │
+               ▼                  ▼                  ▼
+        ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+        │   Frontend  │    │ API Routes  │    │    Auth     │
+        │ React +     │    │ Next.js     │    │ NextAuth    │
+        │ Tailwind    │    │ Route       │    │ Credentials │
+        └─────────────┘    │ Handlers    │    └─────────────┘
+                           └──────┬──────┘
+                                  │
+                    ┌─────────────┴─────────────┐
+                    │                           │
+                    ▼                           ▼
+             ┌─────────────┐            ┌─────────────┐
+             │  MongoDB    │            │  Razorpay   │
+             │ + Mongoose  │            │ Test Mode   │
+             └─────────────┘            └─────────────┘
