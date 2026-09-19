@@ -1,12 +1,59 @@
 import type { Doctor } from "@/types/doctor";
 
-const standardAvailability = (slots: string[]) => [
-  { day: "Mon", date: "15 Sep", slots },
-  { day: "Tue", date: "16 Sep", slots },
-  { day: "Wed", date: "17 Sep", slots: [] },
-  { day: "Thu", date: "18 Sep", slots },
-  { day: "Fri", date: "19 Sep", slots },
-];
+type Weekday = "Mon" | "Tue" | "Wed" | "Thu" | "Fri";
+
+const standardAvailability = (slots: string[]) => {
+  const availability: {
+    day: Weekday;
+    date: string;
+    slots: string[];
+  }[] = [];
+
+  const weekdayMap: Record<number, Weekday> = {
+    1: "Mon",
+    2: "Tue",
+    3: "Wed",
+    4: "Thu",
+    5: "Fri",
+  };
+
+  const today = new Date();
+
+  // Generate the next 30 calendar days.
+  // Saturday and Sunday are skipped.
+  // Wednesday remains unavailable to preserve the existing schedule pattern.
+  for (let offset = 0; offset < 30; offset += 1) {
+    const date = new Date(today);
+    date.setDate(today.getDate() + offset);
+
+    const dayIndex = date.getDay();
+
+    // Skip Sunday and Saturday.
+    if (dayIndex === 0 || dayIndex === 6) {
+      continue;
+    }
+
+    const day = weekdayMap[dayIndex];
+
+    if (!day) {
+      continue;
+    }
+
+    const formattedDate = new Intl.DateTimeFormat("en-IN", {
+      day: "numeric",
+      month: "short",
+      timeZone: "Asia/Kolkata",
+    }).format(date);
+
+    availability.push({
+      day,
+      date: formattedDate,
+      slots: day === "Wed" ? [] : slots,
+    });
+  }
+
+  return availability;
+};
 
 export const doctors: Doctor[] = [
   {
@@ -29,12 +76,37 @@ export const doctors: Doctor[] = [
     isAvailableToday: true,
     nextAvailableLabel: "Today, 4:30 PM",
     availability: standardAvailability([
-      "10:00 AM", "10:30 AM", "11:00 AM", "4:00 PM", "4:30 PM", "5:00 PM",
+      "10:00 AM",
+      "10:30 AM",
+      "11:00 AM",
+      "4:00 PM",
+      "4:30 PM",
+      "5:00 PM",
     ]),
     reviews: [
-      { id: "r1", patientName: "Rohan K.", rating: 5, comment: "Extremely thorough and explained everything clearly. Highly recommend.", date: "2026-08-02" },
-      { id: "r2", patientName: "Sunita P.", rating: 5, comment: "Booked an appointment same day. The consultation felt unrushed.", date: "2026-07-20" },
-      { id: "r3", patientName: "Imran S.", rating: 4, comment: "Good experience overall, slight wait at the clinic.", date: "2026-06-11" },
+      {
+        id: "r1",
+        patientName: "Rohan K.",
+        rating: 5,
+        comment:
+          "Extremely thorough and explained everything clearly. Highly recommend.",
+        date: "2026-08-02",
+      },
+      {
+        id: "r2",
+        patientName: "Sunita P.",
+        rating: 5,
+        comment:
+          "Booked an appointment same day. The consultation felt unrushed.",
+        date: "2026-07-20",
+      },
+      {
+        id: "r3",
+        patientName: "Imran S.",
+        rating: 4,
+        comment: "Good experience overall, slight wait at the clinic.",
+        date: "2026-06-11",
+      },
     ],
   },
   {
@@ -57,11 +129,27 @@ export const doctors: Doctor[] = [
     isAvailableToday: true,
     nextAvailableLabel: "Today, 6:00 PM",
     availability: standardAvailability([
-      "11:00 AM", "11:30 AM", "12:00 PM", "5:30 PM", "6:00 PM",
+      "11:00 AM",
+      "11:30 AM",
+      "12:00 PM",
+      "5:30 PM",
+      "6:00 PM",
     ]),
     reviews: [
-      { id: "r1", patientName: "Fatima A.", rating: 5, comment: "My skin has improved so much since starting treatment.", date: "2026-08-10" },
-      { id: "r2", patientName: "Vikram T.", rating: 4, comment: "Professional and to the point.", date: "2026-07-02" },
+      {
+        id: "r1",
+        patientName: "Fatima A.",
+        rating: 5,
+        comment: "My skin has improved so much since starting treatment.",
+        date: "2026-08-10",
+      },
+      {
+        id: "r2",
+        patientName: "Vikram T.",
+        rating: 4,
+        comment: "Professional and to the point.",
+        date: "2026-07-02",
+      },
     ],
   },
   {
@@ -84,11 +172,27 @@ export const doctors: Doctor[] = [
     isAvailableToday: false,
     nextAvailableLabel: "Tomorrow, 10:00 AM",
     availability: standardAvailability([
-      "9:00 AM", "9:30 AM", "10:00 AM", "3:00 PM",
+      "9:00 AM",
+      "9:30 AM",
+      "10:00 AM",
+      "3:00 PM",
     ]),
     reviews: [
-      { id: "r1", patientName: "Deepa N.", rating: 5, comment: "Finally found a doctor who understands complex migraine cases.", date: "2026-08-15" },
-      { id: "r2", patientName: "Arvind M.", rating: 5, comment: "Very knowledgeable, took time to answer all questions.", date: "2026-05-28" },
+      {
+        id: "r1",
+        patientName: "Deepa N.",
+        rating: 5,
+        comment:
+          "Finally found a doctor who understands complex migraine cases.",
+        date: "2026-08-15",
+      },
+      {
+        id: "r2",
+        patientName: "Arvind M.",
+        rating: 5,
+        comment: "Very knowledgeable, took time to answer all questions.",
+        date: "2026-05-28",
+      },
     ],
   },
   {
@@ -111,12 +215,34 @@ export const doctors: Doctor[] = [
     isAvailableToday: true,
     nextAvailableLabel: "Today, 2:00 PM",
     availability: standardAvailability([
-      "9:00 AM", "9:30 AM", "2:00 PM", "2:30 PM", "3:00 PM",
+      "9:00 AM",
+      "9:30 AM",
+      "2:00 PM",
+      "2:30 PM",
+      "3:00 PM",
     ]),
     reviews: [
-      { id: "r1", patientName: "Neha J.", rating: 5, comment: "My daughter actually looks forward to her checkups now!", date: "2026-08-20" },
-      { id: "r2", patientName: "Karan B.", rating: 5, comment: "Patient, kind, and great with kids.", date: "2026-07-14" },
-      { id: "r3", patientName: "Ritu S.", rating: 4, comment: "Great doctor, clinic can get busy in the evenings.", date: "2026-06-30" },
+      {
+        id: "r1",
+        patientName: "Neha J.",
+        rating: 5,
+        comment: "My daughter actually looks forward to her checkups now!",
+        date: "2026-08-20",
+      },
+      {
+        id: "r2",
+        patientName: "Karan B.",
+        rating: 5,
+        comment: "Patient, kind, and great with kids.",
+        date: "2026-07-14",
+      },
+      {
+        id: "r3",
+        patientName: "Ritu S.",
+        rating: 4,
+        comment: "Great doctor, clinic can get busy in the evenings.",
+        date: "2026-06-30",
+      },
     ],
   },
   {
@@ -139,11 +265,27 @@ export const doctors: Doctor[] = [
     isAvailableToday: true,
     nextAvailableLabel: "Today, 5:00 PM",
     availability: standardAvailability([
-      "10:00 AM", "10:30 AM", "4:30 PM", "5:00 PM", "5:30 PM",
+      "10:00 AM",
+      "10:30 AM",
+      "4:30 PM",
+      "5:00 PM",
+      "5:30 PM",
     ]),
     reviews: [
-      { id: "r1", patientName: "Meera V.", rating: 4, comment: "Very gentle, didn't hurt at all during my filling.", date: "2026-07-25" },
-      { id: "r2", patientName: "Sanjay G.", rating: 5, comment: "Great with my kid who's terrified of dentists.", date: "2026-06-18" },
+      {
+        id: "r1",
+        patientName: "Meera V.",
+        rating: 4,
+        comment: "Very gentle, didn't hurt at all during my filling.",
+        date: "2026-07-25",
+      },
+      {
+        id: "r2",
+        patientName: "Sanjay G.",
+        rating: 5,
+        comment: "Great with my kid who's terrified of dentists.",
+        date: "2026-06-18",
+      },
     ],
   },
   {
@@ -166,11 +308,26 @@ export const doctors: Doctor[] = [
     isAvailableToday: false,
     nextAvailableLabel: "Tomorrow, 11:30 AM",
     availability: standardAvailability([
-      "11:00 AM", "11:30 AM", "12:00 PM", "4:00 PM",
+      "11:00 AM",
+      "11:30 AM",
+      "12:00 PM",
+      "4:00 PM",
     ]),
     reviews: [
-      { id: "r1", patientName: "Aditya R.", rating: 5, comment: "Helped me recover from a knee injury without surgery.", date: "2026-08-05" },
-      { id: "r2", patientName: "Pooja L.", rating: 4, comment: "Knowledgeable, clinic wait times can be long.", date: "2026-06-22" },
+      {
+        id: "r1",
+        patientName: "Aditya R.",
+        rating: 5,
+        comment: "Helped me recover from a knee injury without surgery.",
+        date: "2026-08-05",
+      },
+      {
+        id: "r2",
+        patientName: "Pooja L.",
+        rating: 4,
+        comment: "Knowledgeable, clinic wait times can be long.",
+        date: "2026-06-22",
+      },
     ],
   },
   {
@@ -193,11 +350,27 @@ export const doctors: Doctor[] = [
     isAvailableToday: true,
     nextAvailableLabel: "Today, 1:00 PM",
     availability: standardAvailability([
-      "9:00 AM", "9:30 AM", "1:00 PM", "1:30 PM", "6:00 PM",
+      "9:00 AM",
+      "9:30 AM",
+      "1:00 PM",
+      "1:30 PM",
+      "6:00 PM",
     ]),
     reviews: [
-      { id: "r1", patientName: "Alok D.", rating: 5, comment: "Always available and gives practical advice.", date: "2026-08-18" },
-      { id: "r2", patientName: "Nisha K.", rating: 4, comment: "Good family doctor, easy to talk to.", date: "2026-07-09" },
+      {
+        id: "r1",
+        patientName: "Alok D.",
+        rating: 5,
+        comment: "Always available and gives practical advice.",
+        date: "2026-08-18",
+      },
+      {
+        id: "r2",
+        patientName: "Nisha K.",
+        rating: 4,
+        comment: "Good family doctor, easy to talk to.",
+        date: "2026-07-09",
+      },
     ],
   },
   {
@@ -220,11 +393,27 @@ export const doctors: Doctor[] = [
     isAvailableToday: true,
     nextAvailableLabel: "Today, 3:30 PM",
     availability: standardAvailability([
-      "10:00 AM", "10:30 AM", "3:00 PM", "3:30 PM", "4:00 PM",
+      "10:00 AM",
+      "10:30 AM",
+      "3:00 PM",
+      "3:30 PM",
+      "4:00 PM",
     ]),
     reviews: [
-      { id: "r1", patientName: "Divya S.", rating: 5, comment: "Made me feel at ease throughout my pregnancy checkups.", date: "2026-08-12" },
-      { id: "r2", patientName: "Radhika M.", rating: 5, comment: "Very thorough and never rushes the appointment.", date: "2026-07-30" },
+      {
+        id: "r1",
+        patientName: "Divya S.",
+        rating: 5,
+        comment: "Made me feel at ease throughout my pregnancy checkups.",
+        date: "2026-08-12",
+      },
+      {
+        id: "r2",
+        patientName: "Radhika M.",
+        rating: 5,
+        comment: "Very thorough and never rushes the appointment.",
+        date: "2026-07-30",
+      },
     ],
   },
   {
@@ -246,10 +435,27 @@ export const doctors: Doctor[] = [
     verified: true,
     isAvailableToday: false,
     nextAvailableLabel: "Mon, 9:30 AM",
-    availability: standardAvailability(["9:00 AM", "9:30 AM", "10:00 AM"]),
+    availability: standardAvailability([
+      "9:00 AM",
+      "9:30 AM",
+      "10:00 AM",
+    ]),
     reviews: [
-      { id: "r1", patientName: "Harpreet S.", rating: 5, comment: "One of the best cardiologists in Delhi, worth the wait.", date: "2026-08-01" },
-      { id: "r2", patientName: "Anita R.", rating: 5, comment: "Extremely experienced and reassuring during a stressful time.", date: "2026-06-15" },
+      {
+        id: "r1",
+        patientName: "Harpreet S.",
+        rating: 5,
+        comment: "One of the best cardiologists in Delhi, worth the wait.",
+        date: "2026-08-01",
+      },
+      {
+        id: "r2",
+        patientName: "Anita R.",
+        rating: 5,
+        comment:
+          "Extremely experienced and reassuring during a stressful time.",
+        date: "2026-06-15",
+      },
     ],
   },
   {
@@ -268,13 +474,29 @@ export const doctors: Doctor[] = [
       "Dr. Neha Joshi offers online dermatology consultations for acne, pigmentation, and hair loss, making follow-up care convenient for busy patients.",
     clinicName: "DermaCare Online",
     clinicLocation: "Pune (Video only)",
-    verified: false,
+    verified: true,
     isAvailableToday: true,
     nextAvailableLabel: "Today, 7:00 PM",
-    availability: standardAvailability(["6:00 PM", "6:30 PM", "7:00 PM"]),
+    availability: standardAvailability([
+      "6:00 PM",
+      "6:30 PM",
+      "7:00 PM",
+    ]),
     reviews: [
-      { id: "r1", patientName: "Tanvi P.", rating: 4, comment: "Convenient video consults, follow-up was quick.", date: "2026-07-28" },
-      { id: "r2", patientName: "Yash K.", rating: 4, comment: "Good for minor concerns, easy to book.", date: "2026-06-05" },
+      {
+        id: "r1",
+        patientName: "Tanvi P.",
+        rating: 4,
+        comment: "Convenient video consults, follow-up was quick.",
+        date: "2026-07-28",
+      },
+      {
+        id: "r2",
+        patientName: "Yash K.",
+        rating: 4,
+        comment: "Good for minor concerns, easy to book.",
+        date: "2026-06-05",
+      },
     ],
   },
 ];
@@ -284,5 +506,7 @@ export function getDoctorById(id: string): Doctor | undefined {
 }
 
 export function getFeaturedDoctors(count = 4): Doctor[] {
-  return [...doctors].sort((a, b) => b.rating - a.rating).slice(0, count);
+  return [...doctors]
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, count);
 }

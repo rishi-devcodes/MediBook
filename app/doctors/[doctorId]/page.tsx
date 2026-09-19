@@ -76,7 +76,7 @@ export default async function DoctorProfilePage({
             <Card>
               <CardBody>
                 <h2 className="mb-4 text-lg font-semibold text-ink">
-                  Available this week
+                  Upcoming availability
                 </h2>
 
                 <SchedulePreview availability={doctor.availability} />
