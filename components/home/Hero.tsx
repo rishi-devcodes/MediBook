@@ -56,10 +56,10 @@ export function Hero() {
 
         <div className="relative hidden aspect-[4/5] w-full max-w-md justify-self-center overflow-hidden rounded-2xl lg:block">
           <Image
-            src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop"
+            src="/doctor-hero.png"
             alt="Doctor consulting with a patient"
             fill
-            sizes="400px"
+            sizes="500px"
             className="object-cover"
           />
         </div>
